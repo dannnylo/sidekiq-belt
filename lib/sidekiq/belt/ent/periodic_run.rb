@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-require "byebug"
 require "sidekiq/web/helpers"
-require "sidekiq-ent/web"
-require "sidekiq-ent/periodic"
-require "sidekiq-ent/periodic/static_loop"
 
 module Sidekiq
   module Belt
@@ -78,6 +74,10 @@ module Sidekiq
         end
 
         def self.use!
+          require("sidekiq-ent/web")
+          require("sidekiq-ent/periodic")
+          require("sidekiq-ent/periodic/static_loop")
+
           Sidekiq::Web.register(Sidekiq::Belt::Ent::PeriodicRun::SidekiqLoopsPeriodicRun)
           Sidekiq::Periodic::Loop.prepend(Sidekiq::Belt::Ent::PeriodicRun)
           Sidekiq::Periodic::StaticLoop.prepend(Sidekiq::Belt::Ent::PeriodicRun)
