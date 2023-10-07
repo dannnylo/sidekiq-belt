@@ -1,6 +1,7 @@
 # frozen_string_literal: true
-require 'sidekiq-ent/periodic'
-require 'sidekiq-ent/periodic/static_loop'
+
+require "sidekiq-ent/periodic"
+require "sidekiq-ent/periodic/static_loop"
 
 module Sidekiq
   module Belt

@@ -23,7 +23,13 @@ module Sidekiq
 
   module WebActionHelper
     def render(engine, content, options = {})
-      path_info = ::Rack::Utils.unescape(env["PATH_INFO"])
+      begin
+        path_info = /"([^"]*)"/.match(block.source.to_s)[1]
+      rescue StandardError
+        path_info = nil
+      end
+
+      path_info ||= ::Rack::Utils.unescape(env["PATH_INFO"])
 
       Sidekiq::ReplaceContents.blocks.fetch(path_info.to_s, []).each do |content_block|
         content_block.call(content)

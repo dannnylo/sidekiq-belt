@@ -9,7 +9,6 @@ module Sidekiq
     module Community
       module Files
         def self.use!(_options = [:all])
-
           puts "Com FILES"
 
           # all = options.include?(:all)
