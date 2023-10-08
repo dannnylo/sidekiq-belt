@@ -9,10 +9,8 @@ module Sidekiq
     module Pro
       module Files
         def self.use!(_options = [:all])
-          puts "PRO FILES"
           return unless Sidekiq.pro?
 
-          puts "aqui"
           # all = options.include?(:all)
           # Sidekiq::Belt::Pro::Feature.load! if all || options.include?(:feature)
         end

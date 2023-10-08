@@ -14,9 +14,75 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Features
 
+GitHub Copilot: Sure, here's a rewritten version of the content that is easier to read for a developer:
+
+## Features
+
+To enable all features, add the following code to the end of the Sidekiq initializer file:
+
+```ruby
+Sidekiq::Belt.use!
+```
+
+or
+
+```ruby
+Sidekiq::Belt.use!([:all])
+```
+
+To enable only specific features, add the following code to the Sidekiq initializer file while passing the necessary options:
+
+```ruby
+Sidekiq::Belt.use!([:periodic_run, :periodic_pause])
+```
+
+### Run Periodic Jobs Manually (sidekiq-enterprise)
+
+This functionality adds a button on the Sidekiq Enterprise web page that allows manual execution of a job.
+To enable this feature, pass the `periodic_run` option:
+
+```ruby
+Sidekiq::Belt.use!([:periodic_run])
+```
+
+![periodic_run_index](https://github.com/dannnylo/sidekiq-belt/assets/20794/1c6ceed7-c2be-447e-b61c-b1e15f002bc2)
+![periodic_run_show](https://github.com/dannnylo/sidekiq-belt/assets/20794/be8cab4b-bfb1-4e15-b01b-56c69231169b)
+
+### Pause Periodic Jobs (sidekiq-enterprise)
+
+This feature is not yet implemented.
+
+### Delete an Unfinished Batch (sidekiq-pro)
+
+This feature is not yet implemented.
+```
+Sidekiq::Belt.use!
+```
+
+or
+
+```
+Sidekiq::Belt.use!([:all])
+```
+
+To enable only the features you want, add the code to the Sidekiq initializer file while passing the necessary options.
+
+```
+Sidekiq::Belt.use!([:periodic_run, :periodic_pause])
+```
+
 ### Run manualy Periodic Jobs (sidekiq-enterprise)
 
 This functionality adds a button on the Sidekiq Enterprise web page that allows manual execution of a job.
+
+To enable this feature, pass the periodic_run option:
+
+```
+Sidekiq::Belt.use!([:periodic_run])
+```
+
+![periodic_run_index](https://github.com/dannnylo/sidekiq-belt/assets/20794/1c6ceed7-c2be-447e-b61c-b1e15f002bc2)
+![periodic_run_show](https://github.com/dannnylo/sidekiq-belt/assets/20794/be8cab4b-bfb1-4e15-b01b-56c69231169b)
 
 ### Pause Periodic Jobs (sidekiq-enterprise)
 
