@@ -2,6 +2,7 @@
 
 require "sidekiq/web/helpers"
 require "sidekiq/web/action"
+require "sidekiq/web/router"
 
 module Sidekiq
   module ReplaceContents
