@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+require "simplecov"
+
+SimpleCov.start :test_frameworks do
+  enable_coverage :branch
+
+  # minimum_coverage line: 100, branch: 85
+end
+
 require "sidekiq/belt"
 
 RSpec.configure do |config|

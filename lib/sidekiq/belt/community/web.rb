@@ -10,7 +10,7 @@ module Sidekiq
     end
   end
 
-  module WebRouter
+  module WebRouterHelper
     def remove(method, path)
       @routes[method.to_s.upcase].delete_if { |x| x.pattern == path.to_s }
     end
@@ -39,5 +39,6 @@ module Sidekiq
     end
   end
 
+  Sidekiq::WebRouter.prepend(Sidekiq::WebRouterHelper)
   Sidekiq::WebAction.prepend(Sidekiq::WebActionHelper)
 end

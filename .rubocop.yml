@@ -214,3 +214,9 @@ Style/Documentation:
 
 Metrics/MethodLength:
   Max: 120
+
+RSpec/MultipleExpectations:
+  Max: 20
+
+RSpec/ExampleLength:
+  Enabled: false

@@ -12,3 +12,8 @@ gem "rspec", "~> 3.0"
 gem "rubocop", "~> 1.21"
 gem "rubocop-rake"
 gem "rubocop-rspec"
+
+group :development, :test do
+  gem "byebug"
+  gem "simplecov"
+end

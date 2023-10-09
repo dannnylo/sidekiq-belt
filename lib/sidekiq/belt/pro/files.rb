@@ -11,6 +11,7 @@ module Sidekiq
         def self.use!(_options = [:all])
           return unless Sidekiq.pro?
 
+          true
           # all = options.include?(:all)
           # Sidekiq::Belt::Pro::Feature.load! if all || options.include?(:feature)
         end
