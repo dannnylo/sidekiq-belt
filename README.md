@@ -45,8 +45,8 @@ To enable this feature, pass the `periodic_run` option:
 Sidekiq::Belt.use!([:periodic_run])
 ```
 
-![periodic_run_index](https://github.com/dannnylo/sidekiq-belt/assets/20794/1c6ceed7-c2be-447e-b61c-b1e15f002bc2)
-![periodic_run_show](https://github.com/dannnylo/sidekiq-belt/assets/20794/be8cab4b-bfb1-4e15-b01b-56c69231169b)
+![periodic_run_index](https://github.com/dannnylo/sidekiq-belt/assets/20794/79bf3c27-9d3e-480c-8f44-54887db48562)
+![periodic_run_show](https://github.com/dannnylo/sidekiq-belt/assets/20794/6d1b4719-3cdc-4e2c-a42d-78de4f704fdb)
 
 ### Pause Periodic Jobs (sidekiq-enterprise)
 
