@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'byebug'
-
 RSpec.describe(Sidekiq::WebRouterHelper) do
   describe ".render" do
     let(:dummy_web_router) do
