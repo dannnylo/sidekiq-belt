@@ -14,7 +14,7 @@ module Sidekiq
 
           all = options.include?(:all)
 
-          Sidekiq::Belt::Ent::PeriodicPause.use! if all || options.include?(:pause)
+          Sidekiq::Belt::Ent::PeriodicPause.use! if all || options.include?(:periodic_pause)
           Sidekiq::Belt::Ent::PeriodicRun.use! if all || options.include?(:periodic_run)
         end
       end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-require 'byebug'
-require 'sidekiq'
-require 'sidekiq/web'
+
+require "sidekiq"
+require "sidekiq/web"
 
 RSpec.describe(Sidekiq::Belt::Ent::PeriodicRun) do
   describe ".run" do

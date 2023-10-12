@@ -2,27 +2,13 @@
 
 require "sidekiq/web/helpers"
 require "sidekiq/web/action"
-require "sidekiq/web/router"
 
 module Sidekiq
-  module ReplaceContents
+  module WebActionHelper
     def self.blocks
       @blocks ||= {}
     end
-  end
 
-  module WebRouterHelper
-    def remove(method, path)
-      @routes[method.to_s.upcase].delete_if { |x| x.pattern == path.to_s }
-    end
-
-    def replace_content(path, &block)
-      Sidekiq::ReplaceContents.blocks[path.to_s] ||= []
-      Sidekiq::ReplaceContents.blocks[path.to_s] << block
-    end
-  end
-
-  module WebActionHelper
     def render(engine, content, options = {})
       begin
         path_info = /"([^"]*)"/.match(block.source.to_s)[1]
@@ -32,7 +18,7 @@ module Sidekiq
 
       path_info ||= ::Rack::Utils.unescape(env["PATH_INFO"])
 
-      Sidekiq::ReplaceContents.blocks.fetch(path_info.to_s, []).each do |content_block|
+      Sidekiq::WebActionHelper.blocks.fetch(path_info.to_s, []).each do |content_block|
         content_block.call(content)
       end
 
@@ -40,6 +26,5 @@ module Sidekiq
     end
   end
 
-  Sidekiq::WebRouter.prepend(Sidekiq::WebRouterHelper)
   Sidekiq::WebAction.prepend(Sidekiq::WebActionHelper)
 end

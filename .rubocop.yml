@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 require:
   - rubocop-rake
   - rubocop-rspec
@@ -219,4 +221,7 @@ RSpec/MultipleExpectations:
   Max: 20
 
 RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/NestedGroups:
   Enabled: false

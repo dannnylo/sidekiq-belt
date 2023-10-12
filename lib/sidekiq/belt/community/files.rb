@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "sidekiq"
-require_relative "web"
 # require_relative "feature"
 
 module Sidekiq

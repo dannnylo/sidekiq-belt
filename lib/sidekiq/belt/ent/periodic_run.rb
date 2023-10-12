@@ -17,15 +17,15 @@ module Sidekiq
         end
 
         module SidekiqLoopsPeriodicRun
-          FORCE_RUN_BUTTON_ERB = <<~HTML
+          FORCE_RUN_BUTTON = <<~ERB
             <form action="<%= root_path %>loops/<%= loup.lid %>/run" method="post">
               <%= csrf_tag %>
               <input class="btn btn-danger" type="submit" name="run" value="<%= t('Run now') %>"
                 data-confirm="Run the job <%= loup.klass %>? <%= t('AreYouSure') %>" />
             </form>
-          HTML
+          ERB
 
-          FORCE_RUN_SINGLE_PAGE_ERB = <<~HTML
+          FORCE_RUN_SINGLE_PAGE = <<~ERB
                 <tr>
                 <th><%= t('Force Run') %></th>
                 <td>
@@ -37,7 +37,7 @@ module Sidekiq
                 </td>
               </tr>
             </tbody>
-          HTML
+          ERB
 
           def self.registered(app)
             app.replace_content("/loops") do |content|
@@ -47,7 +47,7 @@ module Sidekiq
               # Add the run button
               content.gsub!(
                 "</td>\n      </tr>\n    <% end %>",
-                "</td>\n<td>#{FORCE_RUN_BUTTON_ERB}</td>\n      </tr>\n    <% end %>"
+                "</td>\n<td>#{FORCE_RUN_BUTTON}</td>\n      </tr>\n    <% end %>"
               )
             end
 
@@ -58,7 +58,7 @@ module Sidekiq
                 if i.zero?
                   i += 1
 
-                  FORCE_RUN_SINGLE_PAGE_ERB
+                  FORCE_RUN_SINGLE_PAGE
                 else
                   match
                 end
