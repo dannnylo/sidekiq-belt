@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sidekiq-belt (0.1.0)
+    sidekiq-belt (0.2.0)
       sidekiq (> 7.0)
 
 GEM
