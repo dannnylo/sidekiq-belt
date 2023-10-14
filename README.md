@@ -64,10 +64,6 @@ Sidekiq::Belt.use!([:periodic_pause])
 
 ### Delete an Unfinished Batch (sidekiq-pro)
 
-This feature is not yet implemented.
-
-### Delete a not finished Batch (sidekiq-pro)
-
 It will be implemented in upcoming versions.
 
 ## Development
