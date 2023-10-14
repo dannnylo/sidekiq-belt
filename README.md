@@ -47,7 +47,18 @@ Sidekiq::Belt.use!([:periodic_run])
 
 ### Pause Periodic Jobs (sidekiq-enterprise)
 
-This feature is not yet implemented.
+This option adds a button to pause and unpause the cron of a periodic job.
+When a periodic job is paused, the perform is skiped and on server this content is logged.
+
+```
+2023-10-12T19:24:00.001Z pid=127183 tid=2ian INFO: Job SomeHourlyWorkerClass is paused by Periodic Pause
+```
+
+To enable this feature, pass the `periodic_pause` option:
+
+```ruby
+Sidekiq::Belt.use!([:periodic_pause])
+```
 
 ### Delete an Unfinished Batch (sidekiq-pro)
 

@@ -1,5 +1,3 @@
-inherit_from: .rubocop_todo.yml
-
 require:
   - rubocop-rake
   - rubocop-rspec
@@ -224,4 +222,20 @@ RSpec/ExampleLength:
   Enabled: false
 
 RSpec/NestedGroups:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
+Naming/FileName:
+  Exclude:
+    - 'lib/sidekiq-belt.rb'
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
   Enabled: false
