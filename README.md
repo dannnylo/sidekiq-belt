@@ -59,6 +59,8 @@ To enable this feature, pass the `periodic_pause` option:
 ```ruby
 Sidekiq::Belt.use!([:periodic_pause])
 ```
+![periodic_pause](https://github.com/dannnylo/sidekiq-belt/assets/20794/41fbcee4-9c5b-45cd-b6f7-c359a22f3979)
+![periodic_unpause](https://github.com/dannnylo/sidekiq-belt/assets/20794/ea06ae37-068e-4f66-ab10-d83970545a59)
 
 ### Delete an Unfinished Batch (sidekiq-pro)
 
