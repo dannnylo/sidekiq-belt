@@ -1,5 +1,13 @@
 # Sidekiq::Belt
 
+
+<a href='http://badge.fury.io/rb/sidekiq-belt'>
+    <img src="https://badge.fury.io/rb/sidekiq-belt.png" alt="Gem Version" />
+</a>
+<a href='https://github.com/dannnylo/sidekiq-belt/workflows/CI/badge.svg'>
+  <img src="https://github.com/dannnylo/sidekiq-belt/workflows/CI/badge.svg" alt="Build Status" />
+</a>
+
 This Ruby gem enhances the capabilities of Sidekiq, Sidekiq Pro, and Sidekiq Enterprise by adding essential utilities.
 
 ## Installation
