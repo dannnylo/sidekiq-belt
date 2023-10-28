@@ -7,8 +7,9 @@ require_relative "web_action_helper"
 module Sidekiq
   module WebRouterHelper
     def replace_content(path, &block)
-      Sidekiq::WebActionHelper.blocks[path.to_s] ||= []
-      Sidekiq::WebActionHelper.blocks[path.to_s] << block
+      Sidekiq::Config::DEFAULTS[:replace_views] ||= {}
+      Sidekiq::Config::DEFAULTS[:replace_views][path.to_s] ||= []
+      Sidekiq::Config::DEFAULTS[:replace_views][path.to_s] << block
     end
   end
 

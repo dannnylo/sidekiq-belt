@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 
 require "sidekiq"
 require "sidekiq/web"
@@ -11,6 +11,7 @@ RSpec.describe(Sidekiq::Belt::Ent::PeriodicPause) do
       include Sidekiq::Worker
     end
   end
+
   let(:loop_class) do
     Class.new do
       attr_accessor :lid, :klass, :options

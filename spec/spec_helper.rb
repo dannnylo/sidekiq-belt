@@ -3,7 +3,7 @@
 require "simplecov"
 
 SimpleCov.start :test_frameworks do
-  enable_coverage :branch
+  # enable_coverage :branch
 
   # minimum_coverage line: 100, branch: 85
 end

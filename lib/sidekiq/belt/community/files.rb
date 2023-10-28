@@ -10,6 +10,8 @@ module Sidekiq
         def self.use!(_options = [:all])
           # all = options.include?(:all)
           # Sidekiq::Belt::Pro::Feature.load! if all || options.include?(:feature)
+
+          true
         end
       end
     end

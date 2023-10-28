@@ -21,8 +21,7 @@ RSpec.describe(Sidekiq::WebRouterHelper) do
         content.gsub!("replaced", "replaced twice")
       end
 
-      expect(Sidekiq::WebActionHelper.blocks.size).to eq(1)
-      expect(Sidekiq::WebActionHelper.blocks["/"].size).to eq(2)
+      expect(Sidekiq::Config::DEFAULTS[:replace_views]["/"].size).to eq(2)
     end
   end
 end

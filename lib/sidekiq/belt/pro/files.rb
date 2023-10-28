@@ -2,18 +2,20 @@
 
 require "sidekiq"
 
-# require_relative "feature"
+require_relative "./failed_batch_remove"
 
 module Sidekiq
   module Belt
     module Pro
       module Files
-        def self.use!(_options = [:all])
+        def self.use!(options = [:all])
           return unless Sidekiq.pro?
 
+          all = options.include?(:all)
+
+          Sidekiq::Belt::Pro::FailedBatchRemove.use! if all || options.include?(:failed_batch_remove)
+
           true
-          # all = options.include?(:all)
-          # Sidekiq::Belt::Pro::Feature.load! if all || options.include?(:feature)
         end
       end
     end

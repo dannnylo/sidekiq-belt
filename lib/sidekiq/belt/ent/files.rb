@@ -16,6 +16,8 @@ module Sidekiq
 
           Sidekiq::Belt::Ent::PeriodicPause.use! if all || options.include?(:periodic_pause)
           Sidekiq::Belt::Ent::PeriodicRun.use! if all || options.include?(:periodic_run)
+
+          true
         end
       end
     end
