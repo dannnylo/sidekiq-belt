@@ -2,7 +2,7 @@
 
 require "sidekiq"
 
-require_relative "./failed_batch_remove"
+require_relative "failed_batch_remove"
 
 module Sidekiq
   module Belt
