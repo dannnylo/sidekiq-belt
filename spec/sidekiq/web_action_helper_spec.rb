@@ -15,7 +15,8 @@ RSpec.describe(Sidekiq::WebActionHelper) do
     end
 
     before do
-      described_class.blocks["/"] = blocks
+      Sidekiq::Config::DEFAULTS[:replace_views] ||= {}
+      Sidekiq::Config::DEFAULTS[:replace_views]["/"] = blocks
 
       dummy_web_action.prepend(described_class)
     end

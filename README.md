@@ -72,7 +72,12 @@ Sidekiq::Belt.use!([:periodic_pause])
 
 ### Delete an Unfinished Batch (sidekiq-pro)
 
-It will be implemented in upcoming versions.
+This option adds a button to remove failed batches.
+
+To enable this feature, pass the `failed_batch_remove` option:
+```ruby
+Sidekiq::Belt.use!([:failed_batch_remove])
+```
 
 ## Development
 
