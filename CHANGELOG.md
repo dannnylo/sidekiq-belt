@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.0] - 2023-10-07
+
+- Feature to add button to remove failed batches
+
 ## [0.2.0] - 2023-10-07
 
 - Feature to Pause/Unpause Periodic Jobs
