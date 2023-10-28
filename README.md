@@ -78,6 +78,8 @@ To enable this feature, pass the `failed_batch_remove` option:
 ```ruby
 Sidekiq::Belt.use!([:failed_batch_remove])
 ```
+![failed_batch_remove](https://github.com/dannnylo/sidekiq-belt/assets/20794/e285a8b2-4626-48e1-b04a-5190ae51d43b)
+
 
 ## Development
 
