@@ -22,7 +22,7 @@ module Sidekiq
           PAUSE_BUTTON = <<~ERB
             <form action="<%= root_path %>loops/<%= loup.lid %>/pause" method="post">
               <%= csrf_tag %>
-              <input class="btn btn-danger" type="submit" name="pause" value="<%= t('Pause') %>"
+              <input class="btn btn-danger btn-pause" type="submit" name="pause" value="<%= t('Pause') %>"
                 data-confirm="Pause the job <%= loup.klass %>? <%= t('AreYouSure') %>" />
             </form>
           ERB
@@ -30,13 +30,25 @@ module Sidekiq
           UNPAUSE_BUTTON = <<~ERB
             <form action="<%= root_path %>loops/<%= loup.lid %>/unpause" method="post">
               <%= csrf_tag %>
-              <input class="btn btn-danger" type="submit" name="pause" value="<%= t('Unpause') %>"
+              <input class="btn btn-danger btn-unpause" type="submit" name="pause" value="<%= t('Unpause') %>"
                 data-confirm="Unpause the job <%= loup.klass %>? <%= t('AreYouSure') %>" />
             </form>
           ERB
 
           def self.registered(app)
             app.replace_content("/loops") do |content|
+              content.gsub!("</header>", "</header>
+                <style>
+                  .btn-unpause {
+                    color: #000;
+                    background-image: none;
+                    background-color: #ddd;
+                  }
+                  .btn-unpause:hover {
+                    border: 1px solid;
+                  }
+                </style>")
+
               # Add the top of the table
               content.gsub!("</th>\n    </tr>", "</th><th><%= t('Pause/Unpause') %></th></th>\n    </tr>")
 
