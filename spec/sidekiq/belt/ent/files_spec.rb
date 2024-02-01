@@ -7,6 +7,7 @@ RSpec.describe(Sidekiq::Belt::Ent::Files) do
     before do
       allow(Sidekiq::Belt::Ent::PeriodicPause).to receive(:use!).and_return(true)
       allow(Sidekiq::Belt::Ent::PeriodicRun).to receive(:use!).and_return(true)
+      allow(Sidekiq::Belt::Ent::PeriodicSort).to receive(:use!).and_return(true)
     end
 
     context "when Sidekiq is not Ent" do

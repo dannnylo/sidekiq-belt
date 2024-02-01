@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.2] - 2024-01-07
+
+- Feature to sort periodic list by class name
+
 ## [0.3.1] - 2023-11-01
 
 - Added style to pause button

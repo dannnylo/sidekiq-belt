@@ -14,7 +14,9 @@ module Sidekiq
 
       path_info ||= ::Rack::Utils.unescape(env["PATH_INFO"])
 
-      Sidekiq::Config::DEFAULTS[:replace_views].fetch(path_info.to_s, []).each do |content_block|
+      replace_views = Sidekiq::Config::DEFAULTS[:replace_views] || {}
+
+      replace_views.fetch(path_info.to_s, []).each do |content_block|
         content_block.call(content)
       end
 
