@@ -4,6 +4,7 @@ require "sidekiq"
 
 require_relative "periodic_pause"
 require_relative "periodic_run"
+require_relative "periodic_sort"
 
 module Sidekiq
   module Belt
@@ -12,12 +13,15 @@ module Sidekiq
         def self.use!(options = [:all])
           return unless Sidekiq.ent?
 
-          all = options.include?(:all)
-
-          Sidekiq::Belt::Ent::PeriodicPause.use! if all || options.include?(:periodic_pause)
-          Sidekiq::Belt::Ent::PeriodicRun.use! if all || options.include?(:periodic_run)
+          Sidekiq::Belt::Ent::PeriodicPause.use! if should_use?(:periodic_pause, options)
+          Sidekiq::Belt::Ent::PeriodicRun.use! if should_use?(:periodic_run, options)
+          Sidekiq::Belt::Ent::PeriodicSort.use! if should_use?(:periodic_sort, options)
 
           true
+        end
+
+        def self.should_use?(key, options)
+          options.include?(:all) || options.include?(key)
         end
       end
     end
