@@ -1,17 +1,21 @@
 # frozen_string_literal: true
 
 require "sidekiq"
-# require_relative "feature"
+
+require_relative "run_job"
 
 module Sidekiq
   module Belt
     module Community
       module Files
-        def self.use!(_options = [:all])
-          # all = options.include?(:all)
-          # Sidekiq::Belt::Pro::Feature.load! if all || options.include?(:feature)
+        def self.use!(options = [:all])
+          Sidekiq::Belt::Community::RunJob.use! if should_use?(:run_job, options)
 
           true
+        end
+
+        def self.should_use?(key, options)
+          options.include?(:all) || options.include?(key)
         end
       end
     end
