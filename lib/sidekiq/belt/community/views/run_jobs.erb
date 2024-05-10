@@ -1,3 +1,33 @@
-<% @jobs.each_with_index do |job| %>
-  <%= job.inspect %>
+<% @jobs.each do |group, jobs| %>
+  <div class="header-container">
+    <h1><%= group %></h1>
+  </div>
+
+  <div class="table_container">
+    <table class="queues table table-hover table-bordered table-striped">
+      <thead>
+        <th><%= t('Klass') %></th>
+        <th><%= t('Args') %></th>
+        <th><%= t('Run') %></th>
+      </thead>
+      <tbody>
+      <% jobs.each do |job| %>
+        <tr>
+          <td>
+            <%= job[:klass] %>
+          </td>
+          <td>
+            <%= job[:args].inspect %>
+          </td>
+          <td style='width: 100px'>
+            <form action="<%= root_path %>run_jobs/<%= job[:id] %>/run" method="post">
+              <%= csrf_tag %>
+              <input class="btn btn-danger" type="submit" name="run" value="<%= t('Run') %>"
+                data-confirm="Run the job <%= job[:klass] %>? <%= t('AreYouSure') %>" />
+            </form>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+  </table>
 <% end %>
