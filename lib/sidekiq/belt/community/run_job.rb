@@ -39,7 +39,7 @@ module Sidekiq
         def self.use!
           require("sidekiq-ent/web")
 
-          Sidekiq::Web.register(Sidekiq::Belt::Ent::PeriodicRun::SidekiqRunJob)
+          Sidekiq::Web.register(Sidekiq::Belt::Community::SidekiqRunJob)
         end
       end
     end
