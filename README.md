@@ -96,10 +96,11 @@ To configure the list of jobs
 ```ruby
 Sidekiq::Belt.configure do |config|
   config.run_jobs = [
-    { class: "AWorker", args: ["a"] },
-    { class: "BWorker" },
-    { class: "CWorker", args: ["a"], group: "Etc" },
-    { class: "DWorker", args: ["a"], group: "Etc" }
+    { class: "ManualClearDataWorker", args: ['a'] },
+    { class: "ManualDoSomethingWorker", args: ['b'] },
+    { class: "FirstOperationalWorker", args: ['c'], group: 'Operational' },
+    { class: "SecondOperationalWorker", args: ['d'], group: 'Operational' },
+    { class: "AnotherGroupWorker", args: ['e'], group: 'Group with a long name' }
   ]
 end
 ```
