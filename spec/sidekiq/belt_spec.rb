@@ -20,4 +20,31 @@ RSpec.describe Sidekiq::Belt do
       expect(Sidekiq::Belt::Ent::Files).to have_received(:use!).once
     end
   end
+
+  describe ".configure" do
+    it "keeps a default configuration" do
+      expect(described_class.config.run_jobs).to eq([])
+
+      described_class.configure do |config|
+        config.run_jobs.push({ class: "AWorker", args: ["a"], group: "A" })
+      end
+
+      expect(described_class.config.run_jobs).to include({ class: "AWorker", args: ["a"], group: "A" })
+    end
+
+    it "yields a configuration object" do
+      described_class.configure do |config|
+        config.run_jobs.push({ class: "AWorker", args: ["a"] })
+        config.run_jobs.push({ class: "BWorker" })
+
+        config.run_jobs << { class: "CWorker", args: ["a"], group: "Etc" }
+        config.run_jobs << { class: "DWorker", args: ["a"], group: "Etc" }
+      end
+
+      expect(described_class.config.run_jobs).to include({ class: "AWorker", args: ["a"] })
+      expect(described_class.config.run_jobs).to include({ class: "BWorker" })
+      expect(described_class.config.run_jobs).to include({ class: "CWorker", args: ["a"], group: "Etc" })
+      expect(described_class.config.run_jobs).to include({ class: "DWorker", args: ["a"], group: "Etc" })
+    end
+  end
 end

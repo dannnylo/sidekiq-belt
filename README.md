@@ -81,6 +81,40 @@ Sidekiq::Belt.use!([:failed_batch_remove])
 ![failed_batch_remove](https://github.com/dannnylo/sidekiq-belt/assets/20794/e285a8b2-4626-48e1-b04a-5190ae51d43b)
 
 
+
+### Create a list of jobs to run (sidekiq)
+This feature is a manual job manager where you can list jobs. These jobs are grouped and organized in a `Run Jobs` tab.
+You can easily and quickly select which job you want to run manually.
+
+To enable this feature, pass the `run_job` option:
+```ruby
+Sidekiq::Belt.use!([:run_job])
+```
+
+To configure the list of jobs
+
+```ruby
+Sidekiq::Belt.configure do |config|
+  config.run_jobs = [
+    { class: "AWorker", args: ["a"] },
+    { class: "BWorker" },
+    { class: "CWorker", args: ["a"], group: "Etc" },
+    { class: "DWorker", args: ["a"], group: "Etc" }
+  ]
+end
+```
+Or
+
+```ruby
+Sidekiq::Belt.configure do |config|
+  config.run_jobs.push({ class: "AWorker", args: ["a"] })
+  config.run_jobs.push({ class: "BWorker" })
+
+  config.run_jobs << { class: "CWorker", args: ["a"], group: "Etc" }
+  config.run_jobs << { class: "DWorker", args: ["a"], group: "Etc" }
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

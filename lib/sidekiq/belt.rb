@@ -19,5 +19,13 @@ module Sidekiq
       Sidekiq::Belt::Pro::Files.use!(options)
       Sidekiq::Belt::Ent::Files.use!(options)
     end
+
+    def self.configure
+      yield config
+    end
+
+    def self.config
+      @config ||= Struct.new(:run_jobs).new([])
+    end
   end
 end

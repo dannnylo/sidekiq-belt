@@ -6,19 +6,15 @@
   <div class="table_container">
     <table class="queues table table-hover table-bordered table-striped">
       <thead>
-        <th><%= t('Klass') %></th>
+        <th><%= t('Class') %></th>
         <th><%= t('Args') %></th>
         <th><%= t('Run') %></th>
       </thead>
       <tbody>
       <% jobs.each do |job| %>
         <tr>
-          <td>
-            <%= job[:klass] %>
-          </td>
-          <td>
-            <%= job[:args].inspect %>
-          </td>
+          <td><%= job[:class] %></td>
+          <td><%= job[:args].inspect %></td>
           <td style='width: 100px'>
             <form action="<%= root_path %>run_jobs/<%= job[:id] %>/run" method="post">
               <%= csrf_tag %>
@@ -29,5 +25,6 @@
         </tr>
       <% end %>
       </tbody>
-  </table>
+    </table>
+  </div>
 <% end %>
