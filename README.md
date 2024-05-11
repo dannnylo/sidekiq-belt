@@ -80,8 +80,6 @@ Sidekiq::Belt.use!([:failed_batch_remove])
 ```
 ![failed_batch_remove](https://github.com/dannnylo/sidekiq-belt/assets/20794/e285a8b2-4626-48e1-b04a-5190ae51d43b)
 
-
-
 ### Create a list of jobs to run (sidekiq)
 This feature is a manual job manager where you can list jobs. These jobs are grouped and organized in a `Run Jobs` tab.
 You can easily and quickly select which job you want to run manually.
@@ -90,6 +88,8 @@ To enable this feature, pass the `run_job` option:
 ```ruby
 Sidekiq::Belt.use!([:run_job])
 ```
+
+![List jobs to run](https://github.com/dannnylo/sidekiq-belt/assets/20794/ed32dac7-46e2-4c44-b3de-69983c3b990c)
 
 To configure the list of jobs
 
