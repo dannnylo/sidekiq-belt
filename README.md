@@ -116,6 +116,32 @@ Sidekiq::Belt.configure do |config|
 end
 ```
 
+### Add to your web sidekiq a top label by enviroment (sidekiq)
+
+This feature adds a little line on top of Sidekiq web that shows a configurable message.
+
+To enable this feature, pass the `top_label` option:
+```ruby
+Sidekiq::Belt.use!([:top_label])
+```
+
+```ruby
+Sidekiq::Belt.configure do |config|
+  config.top_label = {
+    production: {
+      background_color: 'red',
+      text: 'Be carefull',
+      color: 'white'
+    },
+    development: {
+      background_color: 'green',
+      text: 'You are safe brow!',
+      color: 'white'
+    }
+  }
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
