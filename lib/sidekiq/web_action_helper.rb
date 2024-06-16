@@ -22,6 +22,23 @@ module Sidekiq
 
       super(engine, content, options)
     end
+
+    def self.change_layout(&block)
+      Sidekiq::Config::DEFAULTS[:layout_changes] ||= []
+      Sidekiq::Config::DEFAULTS[:layout_changes] << block
+    end
+
+    def _render
+      content = super
+
+      layout_changes = Sidekiq::Config::DEFAULTS[:layout_changes] || []
+
+      layout_changes.each do |content_block|
+        content_block.call(content)
+      end
+
+      content
+    end
   end
 
   Sidekiq::WebAction.prepend(Sidekiq::WebActionHelper)

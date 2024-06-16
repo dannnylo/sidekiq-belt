@@ -3,6 +3,7 @@
 require "sidekiq"
 
 require_relative "run_job"
+require_relative "top_label"
 
 module Sidekiq
   module Belt
@@ -10,6 +11,7 @@ module Sidekiq
       module Files
         def self.use!(options = [:all])
           Sidekiq::Belt::Community::RunJob.use! if should_use?(:run_job, options)
+          Sidekiq::Belt::Community::TopLabel.use! if should_use?(:top_label, options)
 
           true
         end

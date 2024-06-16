@@ -25,7 +25,15 @@ module Sidekiq
     end
 
     def self.config
-      @config ||= Struct.new(:run_jobs).new([])
+      @config ||= Struct.new(:run_jobs, :top_label).new([], {})
+    end
+
+    def self.env
+      (Sidekiq.default_configuration[:environment] ||
+        ENV["APP_ENV"] ||
+        ENV["RAILS_ENV"] ||
+        ENV["RACK_ENV"] ||
+        "development").to_sym
     end
   end
 end
