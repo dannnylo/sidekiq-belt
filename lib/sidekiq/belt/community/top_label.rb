@@ -12,12 +12,15 @@ module Sidekiq
             top_label = (Sidekiq::Belt.config.top_label || {}).fetch(Sidekiq::Belt.env, {})
 
             html = "<div class='container-fluid'
-                         style='background: #{::Rack::Utils.escape_html(top_label.fetch(:background_color, 'red'))};
+                         style='background: #{::Rack::Utils.escape_html(top_label.fetch(:background_color, "red"))};
                                 text-align: center;
-                                color: #{::Rack::Utils.escape_html(top_label.fetch(:color, 'white'))};'>
+                                color: #{::Rack::Utils.escape_html(top_label.fetch(:color, "white"))};'>
                       &nbsp;#{::Rack::Utils.escape_html(top_label[:text].to_s)}&nbsp;
                     </div>"
-            content.gsub!('<div class="container-fluid">', "#{html} <div class='container-fluid'>") unless top_label.empty?
+            unless top_label.empty?
+              content.gsub!('<div class="container-fluid">',
+                            "#{html} <div class='container-fluid'>")
+            end
           end
         end
       end
