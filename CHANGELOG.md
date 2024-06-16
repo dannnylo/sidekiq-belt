@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## [0.3.4] - 2024-01-07
+
+- Feature top label
+
+## [0.3.3] - 2024-06-11
+
+- Feature list to run jobs
+
 ## [0.3.2] - 2024-01-07
 
 - Feature to sort periodic list by class name
