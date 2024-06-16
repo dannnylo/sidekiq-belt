@@ -120,6 +120,9 @@ end
 
 This feature adds a little line on top of Sidekiq web that shows a configurable message.
 
+![Top Page Development](https://github.com/dannnylo/sidekiq-belt/assets/20794/b1e2f6c2-a257-4172-92ec-09c61511334b)
+![Top Page Production](https://github.com/dannnylo/sidekiq-belt/assets/20794/8e64d0e8-dcb2-42ee-b184-67d2f0b2cf6f)
+
 To enable this feature, pass the `top_label` option:
 ```ruby
 Sidekiq::Belt.use!([:top_label])
@@ -135,7 +138,7 @@ Sidekiq::Belt.configure do |config|
     },
     development: {
       background_color: 'green',
-      text: 'You are safe brow!',
+      text: 'You are safe!',
       color: 'white'
     }
   }
