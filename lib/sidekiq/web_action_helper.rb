@@ -23,6 +23,29 @@ module Sidekiq
       super(engine, content, options)
     end
 
+    def erb(content, options = {})
+      if content.is_a? Symbol
+        unless respond_to?(:"_erb_#{content}")
+          views = options[:views] || Web.settings.views
+          src = ERB.new(File.read("#{views}/#{content}.erb")).src
+          WebAction.class_eval <<-RUBY, __FILE__, __LINE__ + 1
+            def _erb_#{content}
+              #{src}
+            end
+          RUBY
+        end
+      end
+
+      if @_erb
+        _erb(content, options[:locals])
+      else
+        @_erb = true
+        content = _erb(content, options[:locals])
+
+        _render { content }
+      end
+    end
+
     def self.change_layout(&block)
       Sidekiq::Config::DEFAULTS[:layout_changes] ||= []
       Sidekiq::Config::DEFAULTS[:layout_changes] << block
