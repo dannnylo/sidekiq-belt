@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.5] - 2024-09-27
+
+- Fix replace_content to dinamic routes
+
 ## [0.3.4] - 2024-01-07
 
 - Feature top label
