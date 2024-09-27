@@ -11,14 +11,14 @@ module Sidekiq
       replace_views = Sidekiq::Config::DEFAULTS[:replace_views] || {}
 
       replace_views.each do |key, content_blocks|
-        unless WebRoute.new('', key, true).match('', path_info).nil?
-          content_blocks.each do |content_block|
-            content_block.call(content)
-          end
+        next if WebRoute.new("", key, true).match("", path_info).nil?
+
+        content_blocks.each do |content_block|
+          content_block.call(content)
         end
       end
 
-      super(engine, content, options)
+      super
     end
 
     def self.change_layout(&block)
