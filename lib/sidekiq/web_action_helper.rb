@@ -6,21 +6,19 @@ require "sidekiq/web/action"
 module Sidekiq
   module WebActionHelper
     def render(engine, content, options = {})
-      begin
-        path_info = /"([^"]*)"/.match(block.source.to_s)[1]
-      rescue StandardError
-        path_info = nil
-      end
-
-      path_info ||= ::Rack::Utils.unescape(env["PATH_INFO"])
+      path_info = ::Rack::Utils.unescape(env["PATH_INFO"])
 
       replace_views = Sidekiq::Config::DEFAULTS[:replace_views] || {}
 
-      replace_views.fetch(path_info.to_s, []).each do |content_block|
-        content_block.call(content)
+      replace_views.each do |key, content_blocks|
+        next if WebRoute.new("", key, true).match("", path_info).nil?
+
+        content_blocks.each do |content_block|
+          content_block.call(content)
+        end
       end
 
-      super(engine, content, options)
+      super
     end
 
     def erb(content, options = {})
