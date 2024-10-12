@@ -14,16 +14,21 @@ module Sidekiq
 
         module SidekiqForceKill
           def self.registered(app)
-            app.tabs["Force Kill"] = "force_kill"
-
-            app.get("/force_kill") do
-              render(:erb, File.read(File.join(__dir__, "views/force_kill.erb")))
+            app.replace_content("/busy") do |content|
+              content.gsub!("<%= t('Stop') %></button>") do
+                "<%= t('Stop') %></button>" \
+                "<% if process.stopping? %>" \
+                "<a href=\"<%= root_path %>/force_kill/<%= process['identity'] %>/kill\" class=\"btn btn-xs btn-danger\" data-confirm=\"<%= t('AreYouSure') %>\"><%= t('Kill') %></a>" \
+                "<% end %>"
+              end
             end
 
-            app.post("/force_kill/:identity/kill") do
-              Sidekiq::ProcessSet[params["identity"]].kill!
+            app.get("/force_kill/:identity/kill") do
+              process = Sidekiq::ProcessSet[params["identity"]]
+              process.stop!
+              process.kill!
 
-              return redirect "#{root_path}force_kill"
+              return redirect "#{root_path}busy"
             end
           end
         end
