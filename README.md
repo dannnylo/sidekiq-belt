@@ -116,7 +116,7 @@ Sidekiq::Belt.configure do |config|
 end
 ```
 
-### Add to your web sidekiq a top label by enviroment (sidekiq)
+### Add to your web sidekiq a top label by environment (sidekiq)
 
 This feature adds a little line on top of Sidekiq web that shows a configurable message.
 
@@ -133,7 +133,7 @@ Sidekiq::Belt.configure do |config|
   config.top_label = {
     production: {
       background_color: 'red',
-      text: 'Be carefull',
+      text: 'Be careful',
       color: 'white'
     },
     development: {
