@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 RSpec.describe(Sidekiq::WebActionHelper) do
-  describe ".render" do
+  describe "ERB" do
     let(:dummy_web_action) do
       Class.new do
         def env
@@ -30,7 +30,8 @@ RSpec.describe(Sidekiq::WebActionHelper) do
       end
 
       it "replaces the page content with the block content" do
-        expect(dummy_web_action.new.render("erb", "<a>Sidekiq default<a>")).to eq("<a>Sidekiq replaced twice<a>")
+        dummy_web_action::ERB.path_info = "/"
+        expect(dummy_web_action::ERB.new("<a>Sidekiq default<a>").result).to eq("<a>Sidekiq replaced twice<a>")
       end
     end
 
@@ -40,7 +41,8 @@ RSpec.describe(Sidekiq::WebActionHelper) do
       end
 
       it "replaces the page content with the block content" do
-        expect(dummy_web_action.new.render("erb", "<a>Sidekiq default<a>")).to eq("<a>Sidekiq default<a>")
+        dummy_web_action::ERB.path_info = "/"
+        expect(dummy_web_action::ERB.new("<a>Sidekiq default<a>").result).to eq("<a>Sidekiq default<a>")
       end
     end
   end
