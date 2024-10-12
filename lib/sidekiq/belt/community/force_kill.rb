@@ -25,8 +25,11 @@ module Sidekiq
 
             app.get("/force_kill/:identity/kill") do
               process = Sidekiq::ProcessSet[params["identity"]]
-              process.stop!
-              process.kill!
+
+              if process
+                process.stop!
+                process.kill!
+              end
 
               return redirect "#{root_path}busy"
             end
