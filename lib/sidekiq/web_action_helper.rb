@@ -17,7 +17,7 @@ module Sidekiq
           end
         end
 
-        super(content)
+        super
       end
 
       class << self

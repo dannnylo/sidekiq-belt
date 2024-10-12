@@ -2,7 +2,7 @@
 
 require "sidekiq/web"
 require "sidekiq/web/helpers"
-require 'byebug'
+require "byebug"
 
 module Sidekiq
   module Belt
@@ -17,9 +17,11 @@ module Sidekiq
             app.replace_content("/busy") do |content|
               content.gsub!("<%= t('Stop') %></button>") do
                 "<%= t('Stop') %></button>" \
-                "<% if process.stopping? %>" \
-                "<a href=\"<%= root_path %>/force_kill/<%= process['identity'] %>/kill\" class=\"btn btn-xs btn-danger\" data-confirm=\"<%= t('AreYouSure') %>\"><%= t('Kill') %></a>" \
-                "<% end %>"
+                  "<% if process.stopping? %>" \
+                  "<a href=\"<%= root_path %>/force_kill/<%= process['identity'] %>/kill\" " \
+                  "class=\"btn btn-xs btn-danger\" data-confirm=\"<%= t('AreYouSure') %>\">" \
+                  "<%= t('Kill') %></a>" \
+                  "<% end %>"
               end
             end
 
