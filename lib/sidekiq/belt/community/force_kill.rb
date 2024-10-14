@@ -2,7 +2,6 @@
 
 require "sidekiq/web"
 require "sidekiq/web/helpers"
-require "byebug"
 
 module Sidekiq
   module Belt

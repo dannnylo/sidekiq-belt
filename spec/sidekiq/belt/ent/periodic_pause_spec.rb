@@ -2,7 +2,6 @@
 
 require "sidekiq"
 require "sidekiq/web"
-require "byebug"
 
 RSpec.describe(Sidekiq::Belt::Ent::PeriodicPause) do
   let(:redis_mock) { double("redis") }
