@@ -3,7 +3,7 @@
 require "sidekiq"
 
 require_relative "failed_batch_remove"
-require_relative 'force_batch_callback'
+require_relative "force_batch_callback"
 
 module Sidekiq
   module Belt

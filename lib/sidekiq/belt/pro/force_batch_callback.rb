@@ -8,13 +8,10 @@ module Sidekiq
       module ForceBatchCallback
         module SidekiqForceBatchCallback
           def self.action_button(action)
-            action_name = "force_#{action}"
-            action_chars = action.chars
-            action_button = action_chars.capitalize
             <<~ERB
               <form action="<%= root_path %>batches/<%= @batch.bid %>/force_callback/#{action}" method="post">
                 <%= csrf_tag %>
-                <input class="btn btn-danger" type="submit" name="#{action_name}" value="<%= t('#{action_button}') %>"
+                <input class="btn btn-danger" type="submit" name="force_#{action}" value="<%= t('#{action.capitalize}') %>"
                   data-confirm="Do you want to force the #{action} callback for batch <%= @batch.bid %>? <%= t('AreYouSure') %>" />
               </form>
             ERB
@@ -22,15 +19,15 @@ module Sidekiq
 
           def self.registered(app)
             app.replace_content("/batches/:bid") do |content|
-              content.sub!(/(<\/tbody>)/) do |match|
+              content.sub!(%r{(</tbody>)}) do |match|
                 <<-HTML
                   <tr>
                     <th><%= t("Force Action") %></th>
                     <td>
                       <div style="display: flex;">
-                        #{action_button('success')}
-                        #{action_button('complete')}
-                        #{action_button('death')}
+                        #{action_button("success")}
+                        #{action_button("complete")}
+                        #{action_button("death")}
                       </div>
                     </td>
                   </tr>
