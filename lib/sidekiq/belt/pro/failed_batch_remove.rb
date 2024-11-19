@@ -21,7 +21,7 @@ module Sidekiq
 
               content.gsub!(
                 "</td>\n        </tr>\n      <% end %>",
-                "</td>\n<td>#{REMOVE_BUTTON}</td>\n      </tr>\n    <% end %>"
+                "</td>\n<td>#{REMOVE_BUTTON}</td>\n        </tr>\n      <% end %>"
               )
             end
 
