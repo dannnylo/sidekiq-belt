@@ -29,8 +29,6 @@ module Sidekiq
 
         module SidekiqRunJob
           def self.registered(app)
-            app.tabs["Run Jobs"] = "run_jobs"
-
             app.get("/run_jobs") do
               @jobs = Sidekiq::Belt::Community::RunJob.list_grouped_jobs
 
@@ -38,7 +36,7 @@ module Sidekiq
             end
 
             app.post("/run_jobs/:rjid/run") do
-              Sidekiq::Belt::Community::RunJob.run_job(params[:rjid].to_i)
+              Sidekiq::Belt::Community::RunJob.run_job(route_params(:rjid).to_i)
 
               return redirect "#{root_path}run_jobs"
             end
@@ -46,7 +44,9 @@ module Sidekiq
         end
 
         def self.use!
-          Sidekiq::Web.register(Sidekiq::Belt::Community::RunJob::SidekiqRunJob)
+          Sidekiq::Web.configure do |cfg|
+            cfg.register(Sidekiq::Belt::Community::RunJob::SidekiqRunJob, name: 'run_jobs', tab: 'Run Jobs', index: 'run_jobs')
+          end
         end
       end
     end

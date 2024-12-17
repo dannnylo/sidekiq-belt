@@ -13,5 +13,5 @@ module Sidekiq
     end
   end
 
-  Sidekiq::WebRouter.prepend(Sidekiq::WebRouterHelper)
+  Sidekiq::Web::Router.prepend(Sidekiq::WebRouterHelper)
 end

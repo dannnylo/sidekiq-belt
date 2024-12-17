@@ -26,7 +26,7 @@ module Sidekiq
             end
 
             app.post("/batches/:bid/remove") do
-              Sidekiq::Batch::Status.new(params[:bid]).delete
+              Sidekiq::Batch::Status.new(route_params(:bid)).delete
 
               return redirect "#{root_path}batches"
             end
@@ -36,7 +36,9 @@ module Sidekiq
         def self.use!
           require("sidekiq/web")
 
-          Sidekiq::Web.register(Sidekiq::Belt::Pro::FailedBatchRemove::SidekiqFailedBatchRemove)
+          Sidekiq::Web.configure do |cfg|
+            cfg.register(Sidekiq::Belt::Pro::FailedBatchRemove::SidekiqFailedBatchRemove, name: 'remove_batch', tab: nil, index: nil)
+          end
         end
       end
     end

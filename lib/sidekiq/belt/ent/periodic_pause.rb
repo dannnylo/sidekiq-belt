@@ -62,13 +62,13 @@ module Sidekiq
             end
 
             app.post("/loops/:lid/pause") do
-              Sidekiq::Periodic::Loop.new(params[:lid]).pause!
+              Sidekiq::Periodic::Loop.new(route_params(:lid)).pause!
 
               return redirect "#{root_path}loops"
             end
 
             app.post("/loops/:lid/unpause") do
-              Sidekiq::Periodic::Loop.new(params[:lid]).unpause!
+              Sidekiq::Periodic::Loop.new(route_params(:lid)).unpause!
 
               return redirect "#{root_path}loops"
             end
@@ -87,7 +87,10 @@ module Sidekiq
           require("sidekiq-ent/periodic/manager")
           require("sidekiq-ent/periodic/static_loop")
 
-          Sidekiq::Web.register(Sidekiq::Belt::Ent::PeriodicPause::SidekiqLoopsPeriodicPause)
+          Sidekiq::Web.configure do |cfg|
+            cfg.register(Sidekiq::Belt::Ent::PeriodicPause::SidekiqLoopsPeriodicPause, name: 'periodic_pause', tab: nil, index: nil)
+          end
+
           Sidekiq::Periodic::Loop.prepend(Sidekiq::Belt::Ent::PeriodicPause)
           Sidekiq::Periodic::StaticLoop.prepend(Sidekiq::Belt::Ent::PeriodicPause)
           Sidekiq::Periodic::Manager.prepend(Sidekiq::Belt::Ent::PeriodicPause::PauseServer)

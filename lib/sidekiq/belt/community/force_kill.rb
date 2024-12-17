@@ -25,7 +25,7 @@ module Sidekiq
             end
 
             app.get("/force_kill/:identity/kill") do
-              process = Sidekiq::ProcessSet[params["identity"]]
+              process = Sidekiq::ProcessSet[route_params(:identity)]
 
               if process
                 process.stop!
@@ -38,7 +38,9 @@ module Sidekiq
         end
 
         def self.use!
-          Sidekiq::Web.register(Sidekiq::Belt::Community::ForceKill::SidekiqForceKill)
+          Sidekiq::Web.configure do |cfg|
+            cfg.register(Sidekiq::Belt::Community::ForceKill::SidekiqForceKill, name: 'force_kill', tab: nil, index: nil)
+          end
           Sidekiq::Process.prepend(Sidekiq::Belt::Community::ForceKill)
         end
       end

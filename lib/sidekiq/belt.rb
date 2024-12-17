@@ -3,6 +3,7 @@
 require "sidekiq"
 
 require_relative "belt/version"
+require "sidekiq/web"
 require_relative "web_action_helper"
 require_relative "web_router_helper"
 
