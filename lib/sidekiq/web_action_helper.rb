@@ -2,6 +2,7 @@
 
 require "sidekiq/web/helpers"
 require "sidekiq/web/action"
+require "byebug"
 
 module Sidekiq
   module WebActionHelper
@@ -10,7 +11,11 @@ module Sidekiq
         replace_views = Sidekiq::Config::DEFAULTS[:replace_views] || {}
 
         replace_views.each do |key, content_blocks|
-          next if Sidekiq::Web::Application.match(self.class.full_env).nil?
+          if Sidekiq::VERSION >= "8.0.0"
+            next if Sidekiq::Web::Application.match(self.class.full_env).nil?
+          else
+            next if WebRoute.new("", key, true).match("", self.class.full_env['PATH_INFO']).nil?
+          end
 
           content_blocks.each do |content_block|
             content_block.call(content)
@@ -49,5 +54,9 @@ module Sidekiq
     end
   end
 
-  Sidekiq::Web::Action.prepend(Sidekiq::WebActionHelper)
+  if defined?(Sidekiq::Web::Action)
+    Sidekiq::Web::Action.prepend(Sidekiq::WebActionHelper)
+  else
+    Sidekiq::WebAction.prepend(Sidekiq::WebActionHelper)
+  end
 end
