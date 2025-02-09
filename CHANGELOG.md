@@ -1,5 +1,9 @@
 ## [Unreleased]
-Support for Sidekiq v8
+## [2.0.0] - 2024-09-27
+- Support for Sidekiq v8
+
+## [1.0.0] - 2024-11-19
+- Force run batch callback
 
 ## [0.3.6] - 2024-09-27
 
