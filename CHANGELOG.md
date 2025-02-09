@@ -1,4 +1,6 @@
 ## [Unreleased]
+Support for Sidekiq v8
+
 ## [0.3.6] - 2024-09-27
 
 - Added force kill to instances
