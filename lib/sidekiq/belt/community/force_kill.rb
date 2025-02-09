@@ -39,7 +39,8 @@ module Sidekiq
 
         def self.use!
           Sidekiq::Web.configure do |cfg|
-            cfg.register(Sidekiq::Belt::Community::ForceKill::SidekiqForceKill, name: 'force_kill', tab: nil, index: nil)
+            cfg.register(Sidekiq::Belt::Community::ForceKill::SidekiqForceKill, name: "force_kill", tab: nil,
+                                                                                index: nil)
           end
           Sidekiq::Process.prepend(Sidekiq::Belt::Community::ForceKill)
         end

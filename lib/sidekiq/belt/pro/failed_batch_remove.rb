@@ -37,7 +37,8 @@ module Sidekiq
           require("sidekiq/web")
 
           Sidekiq::Web.configure do |cfg|
-            cfg.register(Sidekiq::Belt::Pro::FailedBatchRemove::SidekiqFailedBatchRemove, name: 'remove_batch', tab: nil, index: nil)
+            cfg.register(Sidekiq::Belt::Pro::FailedBatchRemove::SidekiqFailedBatchRemove, name: "remove_batch",
+                                                                                          tab: nil, index: nil)
           end
         end
       end

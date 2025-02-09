@@ -11,10 +11,10 @@ module Sidekiq
         replace_views = Sidekiq::Config::DEFAULTS[:replace_views] || {}
 
         replace_views.each do |key, content_blocks|
-          if Sidekiq::VERSION >= "8.0.0"
+          if Sidekiq::VERSION.to_i >= 8
             next if Sidekiq::Web::Application.match(self.class.full_env).nil?
-          else
-            next if WebRoute.new("", key, true).match("", self.class.full_env['PATH_INFO']).nil?
+          elsif WebRoute.new("", key, true).match("", self.class.full_env["PATH_INFO"]).nil?
+            next
           end
 
           content_blocks.each do |content_block|

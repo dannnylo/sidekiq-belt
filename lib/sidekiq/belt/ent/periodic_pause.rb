@@ -88,7 +88,8 @@ module Sidekiq
           require("sidekiq-ent/periodic/static_loop")
 
           Sidekiq::Web.configure do |cfg|
-            cfg.register(Sidekiq::Belt::Ent::PeriodicPause::SidekiqLoopsPeriodicPause, name: 'periodic_pause', tab: nil, index: nil)
+            cfg.register(Sidekiq::Belt::Ent::PeriodicPause::SidekiqLoopsPeriodicPause, name: "periodic_pause",
+                                                                                       tab: nil, index: nil)
           end
 
           Sidekiq::Periodic::Loop.prepend(Sidekiq::Belt::Ent::PeriodicPause)

@@ -48,7 +48,8 @@ module Sidekiq
           require("sidekiq/web")
 
           Sidekiq::Web.configure do |cfg|
-            cfg.register(Sidekiq::Belt::Pro::ForceBatchCallback::SidekiqForceBatchCallback, name: 'force_batch', tab: nil, index: nil)
+            cfg.register(Sidekiq::Belt::Pro::ForceBatchCallback::SidekiqForceBatchCallback, name: "force_batch",
+                                                                                            tab: nil, index: nil)
           end
         end
       end

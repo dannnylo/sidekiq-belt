@@ -79,7 +79,8 @@ module Sidekiq
           require("sidekiq-ent/periodic/static_loop")
 
           Sidekiq::Web.configure do |cfg|
-            cfg.register(Sidekiq::Belt::Ent::PeriodicRun::SidekiqLoopsPeriodicRun, name: 'periodic_run', tab: nil, index: nil)
+            cfg.register(Sidekiq::Belt::Ent::PeriodicRun::SidekiqLoopsPeriodicRun, name: "periodic_run", tab: nil,
+                                                                                   index: nil)
           end
           Sidekiq::Periodic::Loop.prepend(Sidekiq::Belt::Ent::PeriodicRun)
           Sidekiq::Periodic::StaticLoop.prepend(Sidekiq::Belt::Ent::PeriodicRun)

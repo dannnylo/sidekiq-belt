@@ -45,7 +45,8 @@ module Sidekiq
 
         def self.use!
           Sidekiq::Web.configure do |cfg|
-            cfg.register(Sidekiq::Belt::Community::RunJob::SidekiqRunJob, name: 'run_jobs', tab: 'Run Jobs', index: 'run_jobs')
+            cfg.register(Sidekiq::Belt::Community::RunJob::SidekiqRunJob, name: "run_jobs", tab: "Run Jobs",
+                                                                          index: "run_jobs")
           end
         end
       end
