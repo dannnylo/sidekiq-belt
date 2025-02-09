@@ -2,7 +2,6 @@
 
 require "sidekiq/web/helpers"
 require "sidekiq/web/action"
-require "byebug"
 
 module Sidekiq
   module WebActionHelper
