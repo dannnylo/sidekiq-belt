@@ -10,7 +10,8 @@ RSpec.describe(Sidekiq::Belt::Community::RunJob) do
 
       described_class.use!
 
-      expect(Sidekiq::Web).to have_received(:register).with(described_class::SidekiqRunJob)
+      expect(Sidekiq::Web).to have_received(:register).with(described_class::SidekiqRunJob,
+                                                            { index: "run_jobs", name: "run_jobs", tab: "Run Jobs" })
     end
 
     it "registers the tab 'Run Jobs' with the path 'run_jobs'" do
