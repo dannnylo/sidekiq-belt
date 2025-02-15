@@ -37,7 +37,7 @@ module Sidekiq
             end
 
             app.post("/batches/:bid/force_callback/:action") do
-              Sidekiq::Batch::Callback.perform_inline(params[:action], params[:bid])
+              Sidekiq::Batch::Callback.perform_inline(route_params(:action), route_params(:bid))
 
               return redirect "#{root_path}batches"
             end
@@ -47,7 +47,10 @@ module Sidekiq
         def self.use!
           require("sidekiq/web")
 
-          Sidekiq::Web.register(Sidekiq::Belt::Pro::ForceBatchCallback::SidekiqForceBatchCallback)
+          Sidekiq::Web.configure do |cfg|
+            cfg.register(Sidekiq::Belt::Pro::ForceBatchCallback::SidekiqForceBatchCallback, name: "force_batch",
+                                                                                            tab: nil, index: nil)
+          end
         end
       end
     end

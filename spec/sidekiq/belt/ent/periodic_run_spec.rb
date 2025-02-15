@@ -56,7 +56,8 @@ RSpec.describe(Sidekiq::Belt::Ent::PeriodicRun) do
       expect(described_class).to have_received(:require).with("sidekiq-ent/periodic").once
       expect(described_class).to have_received(:require).with("sidekiq-ent/periodic/static_loop").once
 
-      expect(Sidekiq::Web).to have_received(:register).with(described_class::SidekiqLoopsPeriodicRun)
+      expect(Sidekiq::Web).to have_received(:register).with(described_class::SidekiqLoopsPeriodicRun,
+                                                            { index: nil, name: "periodic_run", tab: nil })
       expect(Sidekiq::Periodic::Loop).to have_received(:prepend).with(described_class)
       expect(Sidekiq::Periodic::StaticLoop).to have_received(:prepend).with(described_class)
     end

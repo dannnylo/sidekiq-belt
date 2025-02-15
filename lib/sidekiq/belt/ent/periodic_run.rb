@@ -66,7 +66,7 @@ module Sidekiq
             end
 
             app.post("/loops/:lid/run") do
-              Sidekiq::Periodic::Loop.new(params[:lid]).run
+              Sidekiq::Periodic::Loop.new(route_params(:lid)).run
 
               return redirect "#{root_path}loops"
             end
@@ -78,7 +78,10 @@ module Sidekiq
           require("sidekiq-ent/periodic")
           require("sidekiq-ent/periodic/static_loop")
 
-          Sidekiq::Web.register(Sidekiq::Belt::Ent::PeriodicRun::SidekiqLoopsPeriodicRun)
+          Sidekiq::Web.configure do |cfg|
+            cfg.register(Sidekiq::Belt::Ent::PeriodicRun::SidekiqLoopsPeriodicRun, name: "periodic_run", tab: nil,
+                                                                                   index: nil)
+          end
           Sidekiq::Periodic::Loop.prepend(Sidekiq::Belt::Ent::PeriodicRun)
           Sidekiq::Periodic::StaticLoop.prepend(Sidekiq::Belt::Ent::PeriodicRun)
         end

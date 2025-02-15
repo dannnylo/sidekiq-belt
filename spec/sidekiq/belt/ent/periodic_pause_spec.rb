@@ -98,7 +98,8 @@ RSpec.describe(Sidekiq::Belt::Ent::PeriodicPause) do
       expect(described_class).to have_received(:require).with("sidekiq-ent/periodic/manager").once
       expect(described_class).to have_received(:require).with("sidekiq-ent/periodic/static_loop").once
 
-      expect(Sidekiq::Web).to have_received(:register).with(described_class::SidekiqLoopsPeriodicPause)
+      expect(Sidekiq::Web).to have_received(:register).with(described_class::SidekiqLoopsPeriodicPause,
+                                                            { index: nil, name: "periodic_pause", tab: nil })
       expect(Sidekiq::Periodic::Loop).to have_received(:prepend).with(described_class)
       expect(Sidekiq::Periodic::StaticLoop).to have_received(:prepend).with(described_class)
       expect(Sidekiq::Periodic::Manager).to have_received(:prepend).with(described_class::PauseServer)
