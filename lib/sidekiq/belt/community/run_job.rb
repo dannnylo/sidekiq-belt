@@ -2,7 +2,6 @@
 
 require "sidekiq/web"
 require "sidekiq/web/helpers"
-require 'byebug'
 
 module Sidekiq
   module Belt
@@ -23,6 +22,7 @@ module Sidekiq
 
         def self.dynamic_type?(arg, type)
           return false unless arg.is_a?(Hash)
+
           arg[:dynamic].to_s == type
         end
 
@@ -34,12 +34,12 @@ module Sidekiq
 
           new_args = []
           args.each_with_index do |arg, i|
-            if dynamic_type?(arg, 'text')
+            if dynamic_type?(arg, "text")
               new_args[i] = extra_args.shift
-            elsif dynamic_type?(arg, 'integer')
+            elsif dynamic_type?(arg, "integer")
               new_args[i] = extra_args.shift.to_i
-            elsif dynamic_type?(arg, 'boolean')
-              new_args[i] = extra_args.shift == 'true'
+            elsif dynamic_type?(arg, "boolean")
+              new_args[i] = extra_args.shift == "true"
             else
               new_args << arg
             end
@@ -57,7 +57,7 @@ module Sidekiq
             end
 
             app.post("/run_jobs/:rjid/run") do
-              args = url_params('args')
+              args = url_params("args")
 
               Sidekiq::Belt::Community::RunJob.run_job(route_params(:rjid).to_i, args)
 
