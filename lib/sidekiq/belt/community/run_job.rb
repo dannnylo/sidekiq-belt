@@ -34,14 +34,12 @@ module Sidekiq
 
           new_args = []
           args.each_with_index do |arg, i|
-            if dynamic_type?(arg, "text")
+            if dynamic_type?(arg, "text") || dynamic_type?(arg, "enum")
               new_args[i] = extra_args.shift
             elsif dynamic_type?(arg, "integer")
               new_args[i] = extra_args.shift.to_i
             elsif dynamic_type?(arg, "boolean")
               new_args[i] = extra_args.shift == "true"
-            elsif dynamic_type?(arg, "enum")
-              new_args[i] = extra_args.shift
             else
               new_args << arg
             end

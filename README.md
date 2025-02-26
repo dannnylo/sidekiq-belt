@@ -119,6 +119,7 @@ Sidekiq::Belt.configure do |config|
       { dynamic: 'integer', title: 'Number of test' },
       'fixed value A',
       { dynamic: 'boolean', title: 'Boolean data' },
+      { dynamic: 'enum', title: 'Enum data', options: ['option1', 'option2', 'option3'], default: 'option2' },
       'fixed value B'
     ], group: "Etc" }
   config.run_jobs << { class: "FWorker", args: ["a"], group: "Etc" }
