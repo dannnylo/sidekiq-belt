@@ -19,17 +19,22 @@
               <%= '[' %>
               <% (job[:args] || []).each_with_index do |arg, i| %>
                 <% if Sidekiq::Belt::Community::RunJob.dynamic_type?(arg, 'text') %>
-                  <input type="text" class="form-control" name="args[]" title="<%= arg[:title] %>" required='true' placeholder="<%= arg[:title] %>" />
+                  <input type="text" class="form-control" name="args[]" title="<%= arg[:title] %>" required='true' placeholder="<%= arg[:title] %>" value="<%= arg[:default] %>"  />
                 <% elsif Sidekiq::Belt::Community::RunJob.dynamic_type?(arg, 'integer') %>
-                  <input type="number" class="form-control" name="args[]" title="<%= arg[:title] %>" required='true' placeholder="<%= arg[:title] %>" />
+                 <input type="number" class="form-control" name="args[]" title="<%= arg[:title] %>" required='true' placeholder="<%= arg[:title] %>" value="<%= arg[:default] %>" />
                 <% elsif Sidekiq::Belt::Community::RunJob.dynamic_type?(arg, 'boolean') %>
                   <select class="form-control" name="args[]" required='true' title="<%= arg[:title] %>" placeholder="<%= arg[:title] %>">
-                    <option value="">Select</option>
-                    <option value="true">true</option>
-                    <option value="false">false</option>
+                    <option value="true" <%= arg[:default] == 'true' ? 'selected' : '' %>>true</option>
+                    <option value="false" <%= arg[:default] == 'false' ? 'selected' : '' %>>false</option>
+                  </select>
+                <% elsif Sidekiq::Belt::Community::RunJob.dynamic_type?(arg, 'enum') %>
+                  <select class="form-control" name="args[]" required='true' title="<%= arg[:title] %>" placeholder="<%= arg[:title] %>">
+                    <% arg[:options].each do |option| %>
+                      <option value="<%= option %>" <%= arg[:default].to_s == option.to_s ? 'selected' : '' %>><%= option %></option>
+                    <% end %>
                   </select>
                 <% else %>
-                  <input type="hidden" name="args[]" value="<%= arg.inspect %>" />
+                  <input type="hidden" name="args[]" value="<%= arg %>" />
                   <%= arg.inspect %>
                 <% end %>
                 <%= ',' if i < (job[:args] || []).size - 1 %>
