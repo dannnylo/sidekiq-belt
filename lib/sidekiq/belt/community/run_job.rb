@@ -20,11 +20,32 @@ module Sidekiq
           jobs
         end
 
-        def self.run_job(job_id)
+        def self.dynamic_type?(arg, type)
+          return false unless arg.is_a?(Hash)
+
+          arg[:dynamic].to_s == type
+        end
+
+        def self.run_job(job_id, extra_args = {})
           job = Sidekiq::Belt.config.run_jobs[job_id.to_i]
           job.transform_keys(&:to_sym)
 
-          Module.const_get(job[:class]).perform_async(*job.fetch(:args, []))
+          args = job.fetch(:args, [])
+
+          new_args = []
+          args.each_with_index do |arg, i|
+            if dynamic_type?(arg, "text") || dynamic_type?(arg, "enum")
+              new_args[i] = extra_args.shift
+            elsif dynamic_type?(arg, "integer")
+              new_args[i] = extra_args.shift.to_i
+            elsif dynamic_type?(arg, "boolean")
+              new_args[i] = extra_args.shift == "true"
+            else
+              new_args << arg
+            end
+          end
+
+          Module.const_get(job[:class]).perform_async(*new_args)
         end
 
         module SidekiqRunJob
@@ -36,7 +57,9 @@ module Sidekiq
             end
 
             app.post("/run_jobs/:rjid/run") do
-              Sidekiq::Belt::Community::RunJob.run_job(route_params(:rjid).to_i)
+              args = url_params("args")
+
+              Sidekiq::Belt::Community::RunJob.run_job(route_params(:rjid).to_i, args)
 
               return redirect "#{root_path}run_jobs"
             end

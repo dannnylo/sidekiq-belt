@@ -14,10 +14,35 @@
       <% jobs.each do |job| %>
         <tr>
           <td><%= job[:class] %></td>
-          <td><%= job[:args].inspect %></td>
-          <td style='width: 100px'>
-            <form action="<%= root_path %>run_jobs/<%= job[:id] %>/run" method="post">
+          <td colspan="2">
+            <form action="<%= root_path %>run_jobs/<%= job[:id] %>/run" class="force-run-form" method="post">
+              <%= '[' %>
+              <% (job[:args] || []).each_with_index do |arg, i| %>
+                <% if Sidekiq::Belt::Community::RunJob.dynamic_type?(arg, 'text') %>
+                  <input type="text" class="form-control" name="args[]" title="<%= arg[:title] %>" required='true' placeholder="<%= arg[:title] %>" value="<%= arg[:default] %>"  />
+                <% elsif Sidekiq::Belt::Community::RunJob.dynamic_type?(arg, 'integer') %>
+                 <input type="number" class="form-control" name="args[]" title="<%= arg[:title] %>" required='true' placeholder="<%= arg[:title] %>" value="<%= arg[:default] %>" />
+                <% elsif Sidekiq::Belt::Community::RunJob.dynamic_type?(arg, 'boolean') %>
+                  <select class="form-control" name="args[]" required='true' title="<%= arg[:title] %>" placeholder="<%= arg[:title] %>">
+                    <option value="true" <%= arg[:default] == 'true' ? 'selected' : '' %>>true</option>
+                    <option value="false" <%= arg[:default] == 'false' ? 'selected' : '' %>>false</option>
+                  </select>
+                <% elsif Sidekiq::Belt::Community::RunJob.dynamic_type?(arg, 'enum') %>
+                  <select class="form-control" name="args[]" required='true' title="<%= arg[:title] %>" placeholder="<%= arg[:title] %>">
+                    <% arg[:options].each do |option| %>
+                      <option value="<%= option %>" <%= arg[:default].to_s == option.to_s ? 'selected' : '' %>><%= option %></option>
+                    <% end %>
+                  </select>
+                <% else %>
+                  <input type="hidden" name="args[]" value="<%= arg %>" />
+                  <%= arg.inspect %>
+                <% end %>
+                <%= ',' if i < (job[:args] || []).size - 1 %>
+              <% end %>
+              <%= ']' %>
+
               <%= csrf_tag %>
+
               <input class="btn btn-danger" type="submit" name="run" value="<%= t('Run') %>"
                 data-confirm="Run the job <%= job[:klass] %>? <%= t('AreYouSure') %>" />
             </form>
