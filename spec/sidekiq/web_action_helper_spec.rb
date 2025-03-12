@@ -30,7 +30,8 @@ RSpec.describe(Sidekiq::WebActionHelper) do
       end
 
       it "replaces the page content with the block content" do
-        dummy_web_action::ERB.full_env = { "PATH_INFO" => "/" }
+        dummy_web_action::ERB.sidekiq_path_info = "/"
+        dummy_web_action::ERB.sidekiq_request_method = "GET"
         expect(dummy_web_action::ERB.new("<a>Sidekiq default<a>").result).to eq("<a>Sidekiq replaced twice<a>")
       end
     end
@@ -41,7 +42,8 @@ RSpec.describe(Sidekiq::WebActionHelper) do
       end
 
       it "replaces the page content with the block content" do
-        dummy_web_action::ERB.full_env = { "PATH_INFO" => "/" }
+        dummy_web_action::ERB.sidekiq_path_info = "/"
+        dummy_web_action::ERB.sidekiq_request_method = "GET"
         expect(dummy_web_action::ERB.new("<a>Sidekiq default<a>").result).to eq("<a>Sidekiq default<a>")
       end
     end
