@@ -10,11 +10,13 @@ module Sidekiq
         replace_views = Sidekiq::Config::DEFAULTS[:replace_views] || {}
 
         replace_views.each do |key, content_blocks|
-          if Sidekiq::VERSION.to_i >= 8
-            next if Sidekiq::Web::Application.match(self.class.full_env).nil?
-          elsif WebRoute.new("", key, true).match("", self.class.full_env["PATH_INFO"]).nil?
-            next
-          end
+          router = if Sidekiq::VERSION.to_i >= 8
+                     Sidekiq::Web::Route.new(self.class.sidekiq_request_method, key, true)
+                   else
+                     WebRoute.new(self.class.sidekiq_request_method, key, true)
+                   end
+
+          next if router.match(self.class.sidekiq_request_method, self.class.sidekiq_path_info).nil?
 
           content_blocks.each do |content_block|
             content_block.call(content)
@@ -25,12 +27,13 @@ module Sidekiq
       end
 
       class << self
-        attr_accessor :full_env
+        attr_accessor :sidekiq_request_method, :sidekiq_path_info
       end
     end
 
     def erb(content, options = {})
-      ERB.full_env = env
+      ERB.sidekiq_request_method = env["REQUEST_METHOD"].to_s.downcase
+      ERB.sidekiq_path_info = env["PATH_INFO"].to_s
 
       super
     end

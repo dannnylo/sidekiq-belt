@@ -1,5 +1,8 @@
 ## [Unreleased]
-## [2.0.0] - 2024-09-27
+## [2.0.1] - 2025-03-11
+- Fix Support to Sidekiq-ent and Sidekiq-pro v8
+
+## [2.0.0] - 2025-02-09
 - Support for Sidekiq v8
 
 ## [1.0.0] - 2024-11-19
