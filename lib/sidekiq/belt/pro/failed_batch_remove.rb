@@ -17,10 +17,10 @@ module Sidekiq
 
           def self.registered(app)
             app.replace_content("/batches") do |content|
-              content.gsub!("</th>\n      <%", "</th><th><%= t('Delete') %></th>\n      <%")
+              content.gsub!("</th>\n    <%", "</th><th><%= t('Delete') %></th>\n      <%")
 
               content.gsub!(
-                "</td>\n        </tr>\n      <% end %>",
+                "</td>\n      </tr>\n    <% end %>",
                 "</td>\n<td>#{REMOVE_BUTTON}</td>\n        </tr>\n      <% end %>"
               )
             end
