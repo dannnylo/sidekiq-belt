@@ -2,7 +2,6 @@
 
 require "sidekiq"
 require "sidekiq/web"
-require "byebug"
 
 RSpec.describe(Sidekiq::Belt::Community::RunJob) do
   describe ".use!" do
