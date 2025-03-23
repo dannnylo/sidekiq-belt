@@ -10,11 +10,7 @@ module Sidekiq
         replace_views = Sidekiq::Config::DEFAULTS[:replace_views] || {}
 
         replace_views.each do |key, content_blocks|
-          router = if Sidekiq::VERSION.to_i >= 8
-                     Sidekiq::Web::Route.new(self.class.sidekiq_request_method, key, true)
-                   else
-                     WebRoute.new(self.class.sidekiq_request_method, key, true)
-                   end
+          router = Sidekiq::Web::Route.new(self.class.sidekiq_request_method, key, true)
 
           next if router.match(self.class.sidekiq_request_method, self.class.sidekiq_path_info).nil?
 
@@ -56,9 +52,5 @@ module Sidekiq
     end
   end
 
-  if defined?(Sidekiq::Web::Action)
-    Sidekiq::Web::Action.prepend(Sidekiq::WebActionHelper)
-  else
-    Sidekiq::WebAction.prepend(Sidekiq::WebActionHelper)
-  end
+  Sidekiq::Web::Action.prepend(Sidekiq::WebActionHelper)
 end

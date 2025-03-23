@@ -2,30 +2,34 @@
 
 require "sidekiq"
 require "sidekiq/web"
+require "byebug"
 
 RSpec.describe(Sidekiq::Belt::Community::RunJob) do
   describe ".use!" do
-    it "injects the code" do
-      allow(Sidekiq::Web).to receive(:register)
+    before do
+      allow(Sidekiq::Web.configure).to receive(:register).and_call_original
+    end
 
+    it "injects the code" do
       described_class.use!
 
-      expect(Sidekiq::Web).to have_received(:register).with(described_class::SidekiqRunJob,
-                                                            { index: "run_jobs", name: "run_jobs", tab: "Run Jobs" })
+      expect(Sidekiq::Web.configure).to have_received(:register).with(described_class::SidekiqRunJob,
+                                                                      { index: "run_jobs", name: "run_jobs",
+                                                                        tab: "Run Jobs" })
     end
 
     it "registers the tab 'Run Jobs' with the path 'run_jobs'" do
       described_class.use!
 
-      expect(Sidekiq::Web.tabs).to eq({ "Run Jobs" => "run_jobs" })
+      expect(Sidekiq::Web.tabs).to include({ "Run Jobs" => "run_jobs" })
 
-      routes = Sidekiq::WebApplication.instance_variable_get(:@routes)
+      routes = Sidekiq::Web::Application.route_cache
 
-      route = routes["GET"].select { |r| r.pattern == "/run_jobs" }.first
-      expect(route).to be_a(Sidekiq::WebRoute)
+      route = routes[:get].select { |r| r.pattern == "/run_jobs" }.first
+      expect(route).to be_a(Sidekiq::Web::Route)
 
-      route = routes["POST"].select { |r| r.pattern == "/run_jobs/:rjid/run" }.first
-      expect(route).to be_a(Sidekiq::WebRoute)
+      route = routes[:post].select { |r| r.pattern == "/run_jobs/:rjid/run" }.first
+      expect(route).to be_a(Sidekiq::Web::Route)
     end
   end
 
