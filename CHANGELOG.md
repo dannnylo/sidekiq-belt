@@ -1,4 +1,8 @@
 ## [Unreleased]
+
+## [2.0.2] - 2025-03-23
+- Dynamic args on Jobs Run
+
 ## [2.0.1] - 2025-03-11
 - Fix Support to Sidekiq-ent and Sidekiq-pro v8
 

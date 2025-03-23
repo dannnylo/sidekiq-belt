@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sidekiq-belt (2.0.1)
+    sidekiq-belt (2.0.2)
       sidekiq (>= 7.3.8)
 
 GEM
@@ -88,4 +88,4 @@ DEPENDENCIES
   simplecov
 
 BUNDLED WITH
-   2.5.23
+   2.6.3
