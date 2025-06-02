@@ -17,6 +17,18 @@ module Sidekiq
 
           def self.registered(app)
             app.replace_content("/loops") do |content|
+              content.gsub!("</header>", "</header>
+                <style>
+                  .btn-unpause {
+                    color: #000;
+                    background-image: none;
+                    background-color: #ddd;
+                  }
+                  .btn-unpause:hover {
+                    border: 1px solid;
+                  }
+                </style>")
+
               content.gsub!("name=\"pause\"", PAUSE_BUTTON)
               content.gsub!("name=\"unpause\"", UNPAUSE_BUTTON)
             end
