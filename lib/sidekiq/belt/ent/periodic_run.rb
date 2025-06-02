@@ -18,11 +18,7 @@ module Sidekiq
 
         module SidekiqLoopsPeriodicRun
           FORCE_RUN_BUTTON = <<~ERB
-            <form action="<%= root_path %>loops/<%= loup.lid %>/run" method="post">
-              <%= csrf_tag %>
-              <input class="btn btn-danger" type="submit" name="run" value="<%= t('Run now') %>"
-                data-confirm="Run the job <%= loup.klass %>? <%= t('AreYouSure') %>" />
-            </form>
+            name="enqueue" data-confirm="Enqueue the job <%= loup.klass %>? <%= t('AreYouSure') %>"
           ERB
 
           FORCE_RUN_SINGLE_PAGE = <<~ERB
@@ -41,14 +37,7 @@ module Sidekiq
 
           def self.registered(app)
             app.replace_content("/loops") do |content|
-              # Add the top of the table
-              content.gsub!("</th>\n    </tr>", "</th><th><%= t('Force Run') %></th></th>\n    </tr>")
-
-              # Add the run button
-              content.gsub!(
-                "</td>\n      </tr>\n    <% end %>",
-                "</td>\n<td>#{FORCE_RUN_BUTTON}</td>\n      </tr>\n    <% end %>"
-              )
+              content.gsub!("name=\"enqueue\"", FORCE_RUN_BUTTON)
             end
 
             app.replace_content("/loops/:lid") do |content|
