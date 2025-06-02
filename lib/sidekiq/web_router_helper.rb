@@ -13,9 +13,5 @@ module Sidekiq
     end
   end
 
-  if defined?(Sidekiq::Web::Router)
-    Sidekiq::Web::Router.prepend(Sidekiq::WebRouterHelper)
-  else
-    Sidekiq::WebRouter.prepend(Sidekiq::WebRouterHelper)
-  end
+  Sidekiq::Web::Router.prepend(Sidekiq::WebRouterHelper)
 end

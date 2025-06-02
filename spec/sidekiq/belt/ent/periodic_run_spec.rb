@@ -44,7 +44,7 @@ RSpec.describe(Sidekiq::Belt::Ent::PeriodicRun) do
       stub_const("Sidekiq::Periodic::Loop", Class.new)
 
       allow(described_class).to receive(:require).and_return(true)
-      allow(Sidekiq::Web).to receive(:register)
+      allow(Sidekiq::Web.configure).to receive(:register).and_call_original
       allow(Sidekiq::Periodic::Loop).to receive(:prepend)
       allow(Sidekiq::Periodic::StaticLoop).to receive(:prepend)
     end
@@ -56,8 +56,8 @@ RSpec.describe(Sidekiq::Belt::Ent::PeriodicRun) do
       expect(described_class).to have_received(:require).with("sidekiq-ent/periodic").once
       expect(described_class).to have_received(:require).with("sidekiq-ent/periodic/static_loop").once
 
-      expect(Sidekiq::Web).to have_received(:register).with(described_class::SidekiqLoopsPeriodicRun,
-                                                            { index: nil, name: "periodic_run", tab: nil })
+      expect(Sidekiq::Web.configure).to have_received(:register).with(described_class::SidekiqLoopsPeriodicRun,
+                                                                      { index: nil, name: "periodic_run", tab: nil })
       expect(Sidekiq::Periodic::Loop).to have_received(:prepend).with(described_class)
       expect(Sidekiq::Periodic::StaticLoop).to have_received(:prepend).with(described_class)
     end
