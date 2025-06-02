@@ -6,33 +6,13 @@ module Sidekiq
   module Belt
     module Ent
       module PeriodicPause
-        def paused?
-          Sidekiq.redis { |r| r.hget("PeriodicPaused", @lid.to_s) }.to_s == "p"
-        end
-
-        def pause!
-          Sidekiq.redis { |r| r.hset("PeriodicPaused", @lid.to_s, "p") }
-        end
-
-        def unpause!
-          Sidekiq.redis { |r| r.hdel("PeriodicPaused", @lid.to_s) }
-        end
-
         module SidekiqLoopsPeriodicPause
           PAUSE_BUTTON = <<~ERB
-            <form action="<%= root_path %>loops/<%= loup.lid %>/pause" method="post">
-              <%= csrf_tag %>
-              <input class="btn btn-danger btn-pause" type="submit" name="pause" value="<%= t('Pause') %>"
-                data-confirm="Pause the job <%= loup.klass %>? <%= t('AreYouSure') %>" />
-            </form>
+            name="pause" data-confirm="Pause the job <%= loup.klass %>? <%= t('AreYouSure') %>"
           ERB
 
           UNPAUSE_BUTTON = <<~ERB
-            <form action="<%= root_path %>loops/<%= loup.lid %>/unpause" method="post">
-              <%= csrf_tag %>
-              <input class="btn btn-danger btn-unpause" type="submit" name="pause" value="<%= t('Unpause') %>"
-                data-confirm="Unpause the job <%= loup.klass %>? <%= t('AreYouSure') %>" />
-            </form>
+            name="unpause" data-confirm="Unpause the job <%= loup.klass %>? <%= t('AreYouSure') %>"
           ERB
 
           def self.registered(app)
@@ -49,52 +29,19 @@ module Sidekiq
                   }
                 </style>")
 
-              # Add the top of the table
-              content.gsub!("</th>\n    </tr>", "</th><th><%= t('Pause/Unpause') %></th></th>\n    </tr>")
-
-              # Add the run button
-              content.gsub!(
-                "</td>\n      </tr>\n    <% end %>",
-                "</td>\n<td>" \
-                "<% if (loup.paused?) %>#{UNPAUSE_BUTTON}<% else %>#{PAUSE_BUTTON}<% end %>" \
-                "</td>\n      </tr>\n    <% end %>"
-              )
+              content.gsub!("name=\"pause\"", PAUSE_BUTTON)
+              content.gsub!("name=\"unpause\"", UNPAUSE_BUTTON)
             end
-
-            app.post("/loops/:lid/pause") do
-              Sidekiq::Periodic::Loop.new(route_params(:lid)).pause!
-
-              return redirect "#{root_path}loops"
-            end
-
-            app.post("/loops/:lid/unpause") do
-              Sidekiq::Periodic::Loop.new(route_params(:lid)).unpause!
-
-              return redirect "#{root_path}loops"
-            end
-          end
-        end
-
-        module PauseServer
-          def enqueue_job(cycle, ts)
-            cycle.paused? ? logger.info("Job #{cycle.klass} is paused by Periodic Pause") : super
           end
         end
 
         def self.use!
           require("sidekiq-ent/web")
-          require("sidekiq-ent/periodic")
-          require("sidekiq-ent/periodic/manager")
-          require("sidekiq-ent/periodic/static_loop")
 
           Sidekiq::Web.configure do |cfg|
             cfg.register(Sidekiq::Belt::Ent::PeriodicPause::SidekiqLoopsPeriodicPause, name: "periodic_pause",
                                                                                        tab: nil, index: nil)
           end
-
-          Sidekiq::Periodic::Loop.prepend(Sidekiq::Belt::Ent::PeriodicPause)
-          Sidekiq::Periodic::StaticLoop.prepend(Sidekiq::Belt::Ent::PeriodicPause)
-          Sidekiq::Periodic::Manager.prepend(Sidekiq::Belt::Ent::PeriodicPause::PauseServer)
         end
       end
     end

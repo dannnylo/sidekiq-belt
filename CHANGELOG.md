@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+## [2.0.4] - 2025-06-01
+- Adapt to original Periodic pause and enqueue
+
 ## [2.0.2] - 2025-03-23
 - Dynamic args on Jobs Run
 
