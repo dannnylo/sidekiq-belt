@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+## [2.0.5] - 2026-05-28
+- Update gems and refresh RuboCop plugin configuration
+
 ## [2.0.4] - 2025-06-01
 - Adapt to original Periodic pause and enqueue
 
