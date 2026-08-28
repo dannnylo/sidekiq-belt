@@ -8,7 +8,10 @@ module Sidekiq
       module PeriodicSort
         module SidekiqLoopsPeriodicSort
           def each(&block)
-            @lids.map { |lid| Sidekiq::Periodic::Loop.new(lid) }.sort_by(&:klass).each(&block)
+            @lids
+              .map { |lid| Sidekiq::Periodic::Loop.new(lid) }
+              .sort_by { |loop| [loop.klass.nil? ? 1 : 0, loop.klass.to_s] }
+              .each(&block)
           end
         end
 

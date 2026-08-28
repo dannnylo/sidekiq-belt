@@ -14,13 +14,14 @@ RSpec.describe(Sidekiq::Belt::Ent::PeriodicSort) do
     end
 
     let(:jobs) do
-      [
-        Sidekiq::Periodic::Loop.new(1, "BClass"),
-        Sidekiq::Periodic::Loop.new(2, "DClass"),
-        Sidekiq::Periodic::Loop.new(3, "CClass"),
-        Sidekiq::Periodic::Loop.new(4, "AClass"),
-        Sidekiq::Periodic::Loop.new(5, "ZClass")
-      ]
+      {
+        1 => Struct.new(:id, :klass).new(1, "BClass"),
+        2 => Struct.new(:id, :klass).new(2, "DClass"),
+        3 => Struct.new(:id, :klass).new(3, "CClass"),
+        4 => Struct.new(:id, :klass).new(4, "AClass"),
+        5 => Struct.new(:id, :klass).new(5, "ZClass"),
+        6 => Struct.new(:id, :klass).new(6, nil)
+      }
     end
 
     before do
@@ -28,13 +29,19 @@ RSpec.describe(Sidekiq::Belt::Ent::PeriodicSort) do
       stub_const("Sidekiq::Periodic", Module.new)
       stub_const("Sidekiq::Periodic::Loop", Struct.new(:id, :klass))
 
-      allow(Sidekiq::Periodic::Loop).to receive(:new).and_return(jobs[0], jobs[1], jobs[2], jobs[3], jobs[4])
+      allow(Sidekiq::Periodic::Loop).to receive(:new) { |lid| jobs.fetch(lid) }
     end
 
     it "sort periodic jobs by class name" do
       expect(dummy_class.new(
         [1, 2, 3, 4, 5]
       ).each.map(&:klass)).to eq(%w[AClass BClass CClass DClass ZClass])
+    end
+
+    it "places periodic jobs without a class name last" do
+      expect(dummy_class.new(
+        [1, 6, 4]
+      ).each.map(&:klass)).to eq(["AClass", "BClass", nil])
     end
   end
 
